@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add a student</title>
+    <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+    <span th:replace="~{component/bootstrap :: import}"></span>
+</head>
+<body class="d-flex min-vh-100 flex-column">
+
+<header th:insert="component/header :: header('/add-student')"></header>
+
+<main class="container flex-grow-1">
+    <div class="px-4 py-5 my-5 text-center mx-auto" style="max-width: 330px">
+        <h1 class="display-6 fw-bold text-body-emphasis mb-5">Add a student</h1>
+        <div class="form-signin w-100 m-auto">
+            <form th:action="@{/add-student}" th:object="${student}" method="post" enctype="multipart/form-data">
+                <div class="form-floating">
+                    <input type="text"
+                           class="form-control"
+                           id="firstName"
+                           name="firstName"
+                           placeholder="First name"
+                           required>
+                    <label for="firstName">First name</label>
+                </div>
+                <div class="form-floating">
+                    <input type="text"
+                           class="form-control"
+                           id="lastName"
+                           name="lastName"
+                           placeholder="Last name"
+                           required>
+                    <label for="lastName">Last name</label>
+                </div>
+                <div class="form-floating">
+                    <input type="text"
+                           class="form-control"
+                           id="email"
+                           name="email"
+                           placeholder="Email"
+                           required>
+                    <label for="email">Email</label>
+                </div>
+                <div class="form-floating">
+                    <input type="number"
+                           class="form-control"
+                           id="age"
+                           name="age"
+                           placeholder="Age"
+                           required>
+                    <label for="age">Age</label>
+                </div>
+                <div class="d-flex justify-content-around my-3">
+                    <div class="form-check form-check-inline">
+                        <input type="radio"
+                               class="form-check-input"
+                               id="gender_male"
+                               name="gender"
+                               value="MALE"
+                               required>
+                        <label class="form-check-label" for="gender_male">Male</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input type="radio"
+                               class="form-check-input"
+                               id="gender_female"
+                               name="gender"
+                               value="FEMALE"
+                               required>
+                        <label for="gender_female">Female</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input type="radio"
+                               class="form-check-input"
+                               id="gender_other"
+                               name="gender"
+                               value="OTHER"
+                               required>
+                        <label for="gender_other">Other</label>
+                    </div>
+                </div>
+                <div class="text-start my-3">
+                    <label for="photo" class="form-label">Photo*</label>
+                    <input type="file"
+                           accept="image/*"
+                           class="form-control form-control-sm"
+                           id="photo"
+                           name="photo"
+                           disabled>
+                    <p class="text-end">
+                        <small class="text-muted">*optional</small>
+                    </p>
+                </div>
+
+                <button class="btn btn-primary w-100 my-3 py-2" type="submit">Send</button>
+            </form>
+        </div>
+    </div>
+</main>
+
+<footer th:insert="component/footer :: footer"></footer>
+
+</body>
+</html>

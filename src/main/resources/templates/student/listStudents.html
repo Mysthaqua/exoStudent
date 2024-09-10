@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>List of students</title>
+    <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+    <span th:replace="~{component/bootstrap :: import}"></span>
+</head>
+<body class="d-flex min-vh-100 flex-column">
+
+<header th:insert="component/header :: header('/students')"></header>
+
+<main class="container flex-grow-1">
+    <div class="px-4 py-5 my-5 text-center">
+        <div th:if="${students.isEmpty()}">
+            <img class="d-block mx-auto mb-4 img-fluid" src="/images/logo.png" alt="logo" style="width: 100px;">
+            <h1 class="display-6 fw-bold text-body-emphasis">No students found</h1>
+            <p class="lead mb-4">
+                Try to <a class="link-secondary" href="/add-student">add a student</a>
+            </p>
+        </div>
+
+        <div th:unless="${students.isEmpty()}">
+            <h1 class="display-6 fw-bold text-body-emphasis mb-5">List of students</h1>
+            <div th:each="student : ${students}" class="card d-inline-block" style="width:250px">
+                <img class="card-img-top"
+                     th:src="${student.photo}"
+                     th:alt="${student.firstName + ' ' + student.lastName}">
+                <div class="card-body">
+                    <h4 class="card-title" th:text="${student.firstName + ' ' + student.lastName}"></h4>
+                    <div class="d-flex justify-content-end">
+                        <div class="btn-group">
+                            <a th:href="@{/students/{id}(id=${student.getId()})}"
+                               class="btn btn-sm btn-outline-secondary mt-2">
+                                Détails
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer th:insert="component/footer :: footer"></footer>
+
+</body>
+</html>

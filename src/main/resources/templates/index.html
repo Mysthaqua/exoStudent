@@ -1,22 +1,47 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-bs-theme="dark" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Home</title>
+    <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+    <span th:replace="~{component/bootstrap :: import}"></span>
 </head>
-<body>
+<body class="d-flex min-vh-100 flex-column">
 
-<h1>Home</h1>
-<ul>
-    <li><a href="/students">List of students</a></li>
-    <li><a href="/signup">Sign up</a></li>
-    <li>
-        <form method="get" action="/search">
-            <input type="text" id="studentName" name="studentName" placeholder="Student name" required/>
-            <button>Search for a student</button>
-        </form>
-    </li>
-</ul>
+<header th:insert="component/header :: header('/')"></header>
+
+<main class="container flex-grow-1">
+    <div class="px-4 py-5 my-5 text-center">
+        <img class="d-block mx-auto mb-4 img-fluid" src="/images/logo.png" alt="logo" style="width: 100px;">
+        <h1 class="display-5 fw-bold text-body-emphasis">TP Students</h1>
+        <div class="col-lg-6 mx-auto">
+            <p class="small mb-4">by Tibo</p>
+            <p class="lead mb-4">Current features :</p>
+            <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+                <a href="/students" class="btn btn-outline-secondary btn-lg px-4 gap-3">
+                    List of students
+                </a>
+                <a href="/add-student" class="btn btn-outline-secondary btn-lg px-4">
+                    Add a student
+                </a>
+            </div>
+            <div class="my-3 d-grid gap-2 d-sm-flex justify-content-sm-center">
+                <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3"
+                      role="search"
+                      action="/search-student"
+                      method="get">
+                    <input type="search"
+                           class="form-control form-control-dark text-bg-dark"
+                           placeholder="Search for a student..."
+                           name="studentName"
+                           aria-label="Search">
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer th:insert="component/footer :: footer"></footer>
 
 </body>
 </html>

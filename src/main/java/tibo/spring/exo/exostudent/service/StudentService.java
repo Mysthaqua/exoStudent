@@ -13,18 +13,41 @@ public class StudentService {
 
     public StudentService() {
         students = new ArrayList<>();
+        addStudent(
+                Student.builder()
+                        .firstName("John")
+                        .lastName("Doe")
+                        .gender(Student.Gender.MALE)
+                        .age(30)
+                        .email("jdoe@mail.com")
+                        .build()
+        );
+        addStudent(
+                Student.builder()
+                        .firstName("Jane")
+                        .lastName("Doe")
+                        .gender(Student.Gender.FEMALE)
+                        .age(25)
+                        .email("jane@mail.com")
+                        .build()
+        );
+        addStudent(
+                Student.builder()
+                        .firstName("Tibo")
+                        .lastName("")
+                        .gender(Student.Gender.MALE)
+                        .age(28)
+                        .email("tibo@mail.com")
+                        .photo("/images/student/cat.jpg")
+                        .build()
+        );
     }
 
-    public Student createStudent(String firstName, String lastName, int age, String email) {
-        Student student = Student.builder()
-                .id(UUID.randomUUID())
-                .firstName(firstName)
-                .lastName(lastName)
-                .age(age)
-                .email(email)
-                .build();
+    public void addStudent(Student student) {
+        if (student.getId() == null) student.setId(UUID.randomUUID());
+        if (student.getPhoto() == null || student.getPhoto().isBlank())
+            student.setPhoto(String.format("/images/student/default/%s-default.png", student.getGender().name().toLowerCase().charAt(0)));
         students.add(student);
-        return student;
     }
 
     public List<Student> getAllStudents() {
@@ -38,7 +61,7 @@ public class StudentService {
     public List<Student> getStudentsByName(String name) {
         return students
                 .stream()
-                .filter(student -> student.getFirstName().equals(name) || student.getLastName().equals(name))
+                .filter(student -> student.getFirstName().toLowerCase().contains(name.toLowerCase()) || student.getLastName().toLowerCase().contains(name.toLowerCase()))
                 .toList();
     }
 }

@@ -15,6 +15,12 @@ public class Student {
     private UUID id;
     private String firstName;
     private String lastName;
+    private Gender gender;
     private int age;
     private String email;
+    private String photo;
+
+    public enum Gender {
+        MALE, FEMALE, OTHER
+    }
 }
