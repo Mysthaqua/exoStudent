@@ -12,5 +12,5 @@
 
 <th:block th:fragment="styles(page)">
     <link rel="stylesheet" href="/styles/main.css">
-    <link rel="stylesheet" th:href="${'/styles/' + page + '.css'}">
+    <link th:if="${!page.isBlank()}" rel="stylesheet" th:href="${'/styles/' + page + '.css'}">
 </th:block>

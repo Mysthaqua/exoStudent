@@ -8,6 +8,7 @@ $btn-danger-color: #dc3545;
   &:active,
   &:focus-visible {
     background-color: inherit;
+    cursor: default;
 
     &.btn-outline-success {
       background-color: inherit;

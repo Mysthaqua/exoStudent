@@ -1,8 +1,10 @@
 package tibo.spring.exo.exostudent.controller;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import tibo.spring.exo.exostudent.model.Student;
@@ -39,9 +41,16 @@ public class StudentController {
     }
 
     @RequestMapping(value = "/add-student", method = RequestMethod.POST)
-    public String addStudentPOST(@ModelAttribute("student") Student student,
+    public String addStudentPOST(@Valid @ModelAttribute("student") Student student,
+                                 BindingResult result,
+                                 Model model,
                                  @RequestParam(name = "image", required = false) MultipartFile photo) {
-//        String filename = String.format("%s_%s", UUID.randomUUID(), photo.getOriginalFilename());
+        if (result.hasErrors()) {
+            model.addAttribute("action", "Add");
+            return "student/formStudent";
+        }
+
+        //        String filename = String.format("%s_%s", UUID.randomUUID(), photo.getOriginalFilename());
 
         student.setPhoto(""); // TODO: upload photo
         studentService.addStudent(student);
@@ -68,7 +77,14 @@ public class StudentController {
     }
 
     @RequestMapping(value = "/update-student", method = RequestMethod.POST)
-    public String updateStudentPOST(@ModelAttribute("student") Student student) {
+    public String updateStudentPOST(@Valid @ModelAttribute("student") Student student,
+                                    BindingResult result,
+                                    Model model) {
+        if (result.hasErrors()) {
+            model.addAttribute("action", "Edit");
+            return "student/formStudent";
+        }
+
         studentService.updateStudent(student);
         return String.format("redirect:/students/%s", student.getId());
     }

@@ -15,7 +15,7 @@
     <div class="px-4 py-5 my-5 text-center mx-auto max-w-330px">
         <h1 class="display-6 fw-bold text-body-emphasis mb-5" th:text="${action + ' a student'}"></h1>
         <div class="form-signin w-100 m-auto">
-            <form th:action="${action.equals('Add') ? '/add-student' : '/update-student'}" th:object="${student}"
+            <form th:action="@{${action.equals('Add') ? '/add-student' : '/update-student'}}" th:object="${student}"
                   method="post" enctype="multipart/form-data">
                 <input type="hidden" name="id" th:field="*{id}">
                 <div class="form-floating">
@@ -24,9 +24,10 @@
                            id="firstName"
                            name="firstName"
                            placeholder="First name"
-                           th:field="*{firstName}"
-                           required>
+                           th:field="*{firstName}">
                     <label for="firstName">First name</label>
+                    <small class="text-danger" th:if="${#fields.hasErrors('firstName')}"
+                           th:errors="*{firstName}"></small>
                 </div>
                 <div class="form-floating">
                     <input type="text"
@@ -34,19 +35,21 @@
                            id="lastName"
                            name="lastName"
                            placeholder="Last name"
-                           th:field="*{lastName}"
-                           required>
+                           th:field="*{lastName}">
                     <label for="lastName">Last name</label>
+                    <small class="text-danger" th:if="${#fields.hasErrors('lastName')}"
+                           th:errors="*{lastName}"></small>
                 </div>
                 <div class="form-floating">
-                    <input type="email"
+                    <input type="text"
                            class="form-control"
                            id="email"
                            name="email"
                            placeholder="Email"
-                           th:field="*{email}"
-                           required>
+                           th:field="*{email}">
                     <label for="email">Email</label>
+                    <small class="text-danger" th:if="${#fields.hasErrors('email')}"
+                           th:errors="*{email}"></small>
                 </div>
                 <div class="form-floating">
                     <input type="number"
@@ -54,9 +57,10 @@
                            id="age"
                            name="age"
                            placeholder="Age"
-                           th:field="*{age}"
-                           required>
+                           th:field="*{age}">
                     <label for="age">Age</label>
+                    <small class="text-danger" th:if="${#fields.hasErrors('age')}"
+                           th:errors="*{age}"></small>
                 </div>
                 <div class="d-flex justify-content-around my-3">
                     <div class="form-check form-check-inline">
@@ -65,8 +69,7 @@
                                id="gender_male"
                                name="gender"
                                value="MALE"
-                               th:field="*{gender}"
-                               required>
+                               th:field="*{gender}">
                         <label class="form-check-label" for="gender_male">Male</label>
                     </div>
                     <div class="form-check form-check-inline">
@@ -75,8 +78,7 @@
                                id="gender_female"
                                name="gender"
                                value="FEMALE"
-                               th:field="*{gender}"
-                               required>
+                               th:field="*{gender}">
                         <label for="gender_female">Female</label>
                     </div>
                     <div class="form-check form-check-inline">
@@ -85,11 +87,12 @@
                                id="gender_other"
                                name="gender"
                                value="OTHER"
-                               th:field="*{gender}"
-                               required>
+                               th:field="*{gender}">
                         <label for="gender_other">Other</label>
                     </div>
                 </div>
+                <small class="text-danger d-block" th:if="${#fields.hasErrors('gender')}"
+                       th:errors="*{gender}"></small>
                 <div class="text-start my-3">
                     <label for="image" class="form-label">Photo<span class="text-muted">*</span></label>
                     <input type="file"
