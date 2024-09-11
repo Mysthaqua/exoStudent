@@ -64,4 +64,23 @@ public class StudentService {
                 .filter(student -> student.getFirstName().toLowerCase().contains(name.toLowerCase()) || student.getLastName().toLowerCase().contains(name.toLowerCase()))
                 .toList();
     }
+
+    public void deleteStudent(UUID id) {
+        students.remove(getStudentById(id));
+    }
+
+    public void updateStudent(Student updatedStudent) {
+        Student student = getStudentById(updatedStudent.getId());
+        if (student == null) return;
+
+        student.setFirstName(updatedStudent.getFirstName());
+        student.setLastName(updatedStudent.getLastName());
+        student.setGender(updatedStudent.getGender());
+        student.setAge(updatedStudent.getAge());
+        student.setEmail(updatedStudent.getEmail());
+        if (updatedStudent.getPhoto() == null || updatedStudent.getPhoto().isBlank())
+            updatedStudent.setPhoto(String.format("/images/student/default/%s-default.png", updatedStudent.getGender().name().toLowerCase().charAt(0)));
+        else
+            student.setPhoto(updatedStudent.getPhoto());
+    }
 }

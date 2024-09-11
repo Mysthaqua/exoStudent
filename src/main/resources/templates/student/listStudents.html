@@ -4,16 +4,17 @@
     <meta charset="UTF-8">
     <title>List of students</title>
     <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
-    <span th:replace="~{component/bootstrap :: import}"></span>
+    <span th:replace="~{component/import :: bootstrap}"></span>
+    <span th:replace="~{component/import :: styles('listStudent')}"></span>
 </head>
 <body class="d-flex min-vh-100 flex-column">
 
-<header th:insert="component/header :: header('/students')"></header>
+<header th:insert="~{component/header :: header('/students')}"></header>
 
 <main class="container flex-grow-1">
     <div class="px-4 py-5 my-5 text-center">
         <div th:if="${students.isEmpty()}">
-            <img class="d-block mx-auto mb-4 img-fluid" src="/images/logo.png" alt="logo" style="width: 100px;">
+            <img class="d-block mx-auto mb-4 img-fluid w-100px" src="/images/logo.png" alt="logo">
             <h1 class="display-6 fw-bold text-body-emphasis">No students found</h1>
             <p class="lead mb-4">
                 Try to <a class="link-secondary" href="/add-student">add a student</a>
@@ -22,7 +23,7 @@
 
         <div th:unless="${students.isEmpty()}">
             <h1 class="display-6 fw-bold text-body-emphasis mb-5">List of students</h1>
-            <div th:each="student : ${students}" class="card d-inline-block" style="width:250px">
+            <div th:each="student : ${students}" class="card d-inline-block w-250px">
                 <img class="card-img-top"
                      th:src="${student.photo}"
                      th:alt="${student.firstName + ' ' + student.lastName}">
@@ -42,7 +43,7 @@
     </div>
 </main>
 
-<footer th:insert="component/footer :: footer"></footer>
+<footer th:insert="~{component/footer :: footer}"></footer>
 
 </body>
 </html>

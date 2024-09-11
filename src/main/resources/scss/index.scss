@@ -1,0 +1,22 @@
+$btn-success-color: #198754;
+$btn-danger-color: #dc3545;
+
+.btn-disabled {
+  background-color: transparent;
+
+  &:hover,
+  &:active,
+  &:focus-visible {
+    background-color: inherit;
+
+    &.btn-outline-success {
+      background-color: inherit;
+      color: $btn-success-color;
+    }
+
+    &.btn-outline-danger {
+      background-color: inherit;
+      color: $btn-danger-color;
+    }
+  }
+}

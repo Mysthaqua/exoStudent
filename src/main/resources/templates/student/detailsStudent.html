@@ -4,25 +4,37 @@
     <meta charset="UTF-8">
     <title th:text="${student.getFirstName() + ' ' + student.getLastName()}"></title>
     <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
-    <span th:replace="~{component/bootstrap :: import}"></span>
+    <span th:replace="~{component/import :: bootstrap}"></span>
+    <span th:replace="~{component/import :: styles('detailsStudent')}"></span>
 </head>
 <body class="d-flex min-vh-100 flex-column">
 
-<header th:insert="component/header :: header('/students')"></header>
+<header th:insert="~{component/header :: header('/students')}"></header>
 
 <main class="container flex-grow-1">
     <div class="px-4 py-5 my-5 text-center">
-        <div class="card d-inline-block" style="width:500px">
+        <div class="card d-inline-block w-500px">
             <img class="card-img-top"
                  th:src="${student.photo}"
                  th:alt="${student.firstName + ' ' + student.lastName}">
             <div class="card-body">
                 <h4 class="card-title mb-3" th:text="${student.firstName + ' ' + student.lastName}"></h4>
                 <p class="card-text my-1">Age : <span th:text="${student.age}"></span></p>
-                <p class="card-text my-1">Email : <a th:href="'mailto:' + ${student.email}" th:text="${student.email}"></a>
+                <p class="card-text my-1">Email : <a th:href="'mailto:' + ${student.email}"
+                                                     th:text="${student.email}"></a>
                 </p>
-                <div class="d-flex justify-content-end">
-                    <div class="btn-group">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <a th:href="@{/update-student/{id}(id=${student.getId()})}"
+                           class="btn btn-sm btn-outline-success mt-3">
+                            Edit
+                        </a>
+                        <a th:href="@{/delete-student/{id}(id=${student.getId()})}"
+                           class="btn btn-sm btn-outline-danger mt-3">
+                            Remove
+                        </a>
+                    </div>
+                    <div>
                         <a href="/students"
                            class="btn btn-sm btn-outline-secondary mt-3">
                             Back
@@ -34,7 +46,7 @@
     </div>
 </main>
 
-<footer th:insert="component/footer :: footer"></footer>
+<footer th:insert="~{component/footer :: footer}"></footer>
 
 </body>
 </html>

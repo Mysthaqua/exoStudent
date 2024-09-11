@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import tibo.spring.exo.exostudent.model.Student;
 import tibo.spring.exo.exostudent.service.StudentService;
 
@@ -33,20 +34,43 @@ public class StudentController {
     @RequestMapping("/add-student")
     public String addStudent(Model model) {
         model.addAttribute("student", new Student());
-        return "student/addStudent";
+        model.addAttribute("action", "Add");
+        return "student/formStudent";
     }
 
-    @PostMapping("/add-student")
-    public String addStudentPOST(@ModelAttribute("student") Student student/*, @RequestParam(name = "photo", required = false) MultipartFile photo*/) {
+    @RequestMapping(value = "/add-student", method = RequestMethod.POST)
+    public String addStudentPOST(@ModelAttribute("student") Student student,
+                                 @RequestParam(name = "image", required = false) MultipartFile photo) {
+//        String filename = String.format("%s_%s", UUID.randomUUID(), photo.getOriginalFilename());
+
         student.setPhoto(""); // TODO: upload photo
         studentService.addStudent(student);
-        return "redirect:/students";
+        return String.format("redirect:/students/%s", student.getId());
     }
 
     @RequestMapping("/search-student")
     public String search(Model model, @RequestParam("studentName") String studentName) {
         model.addAttribute("students", studentService.getStudentsByName(studentName));
         return "student/listStudents";
+    }
+
+    @RequestMapping("/delete-student/{id}")
+    public String deleteStudent(@PathVariable("id") UUID id) {
+        studentService.deleteStudent(id);
+        return "redirect:/students";
+    }
+
+    @RequestMapping("/update-student/{id}")
+    public String updateStudent(@PathVariable("id") UUID id, Model model) {
+        model.addAttribute("student", studentService.getStudentById(id));
+        model.addAttribute("action", "Edit");
+        return "student/formStudent";
+    }
+
+    @RequestMapping(value = "/update-student", method = RequestMethod.POST)
+    public String updateStudentPOST(@ModelAttribute("student") Student student) {
+        studentService.updateStudent(student);
+        return String.format("redirect:/students/%s", student.getId());
     }
 }
 

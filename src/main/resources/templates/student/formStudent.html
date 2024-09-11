@@ -4,23 +4,27 @@
     <meta charset="UTF-8">
     <title>Add a student</title>
     <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
-    <span th:replace="~{component/bootstrap :: import}"></span>
+    <span th:replace="~{component/import :: bootstrap}"></span>
+    <span th:replace="~{component/import :: styles('formStudent')}"></span>
 </head>
 <body class="d-flex min-vh-100 flex-column">
 
-<header th:insert="component/header :: header('/add-student')"></header>
+<header th:insert="~{component/header :: header('/add-student')}"></header>
 
 <main class="container flex-grow-1">
-    <div class="px-4 py-5 my-5 text-center mx-auto" style="max-width: 330px">
-        <h1 class="display-6 fw-bold text-body-emphasis mb-5">Add a student</h1>
+    <div class="px-4 py-5 my-5 text-center mx-auto max-w-330px">
+        <h1 class="display-6 fw-bold text-body-emphasis mb-5" th:text="${action + ' a student'}"></h1>
         <div class="form-signin w-100 m-auto">
-            <form th:action="@{/add-student}" th:object="${student}" method="post" enctype="multipart/form-data">
+            <form th:action="${action.equals('Add') ? '/add-student' : '/update-student'}" th:object="${student}"
+                  method="post" enctype="multipart/form-data">
+                <input type="hidden" name="id" th:field="*{id}">
                 <div class="form-floating">
                     <input type="text"
                            class="form-control"
                            id="firstName"
                            name="firstName"
                            placeholder="First name"
+                           th:field="*{firstName}"
                            required>
                     <label for="firstName">First name</label>
                 </div>
@@ -30,15 +34,17 @@
                            id="lastName"
                            name="lastName"
                            placeholder="Last name"
+                           th:field="*{lastName}"
                            required>
                     <label for="lastName">Last name</label>
                 </div>
                 <div class="form-floating">
-                    <input type="text"
+                    <input type="email"
                            class="form-control"
                            id="email"
                            name="email"
                            placeholder="Email"
+                           th:field="*{email}"
                            required>
                     <label for="email">Email</label>
                 </div>
@@ -48,6 +54,7 @@
                            id="age"
                            name="age"
                            placeholder="Age"
+                           th:field="*{age}"
                            required>
                     <label for="age">Age</label>
                 </div>
@@ -58,6 +65,7 @@
                                id="gender_male"
                                name="gender"
                                value="MALE"
+                               th:field="*{gender}"
                                required>
                         <label class="form-check-label" for="gender_male">Male</label>
                     </div>
@@ -67,6 +75,7 @@
                                id="gender_female"
                                name="gender"
                                value="FEMALE"
+                               th:field="*{gender}"
                                required>
                         <label for="gender_female">Female</label>
                     </div>
@@ -76,18 +85,18 @@
                                id="gender_other"
                                name="gender"
                                value="OTHER"
+                               th:field="*{gender}"
                                required>
                         <label for="gender_other">Other</label>
                     </div>
                 </div>
                 <div class="text-start my-3">
-                    <label for="photo" class="form-label">Photo*</label>
+                    <label for="image" class="form-label">Photo<span class="text-muted">*</span></label>
                     <input type="file"
                            accept="image/*"
                            class="form-control form-control-sm"
-                           id="photo"
-                           name="photo"
-                           disabled>
+                           id="image"
+                           name="image">
                     <p class="text-end">
                         <small class="text-muted">*optional</small>
                     </p>
@@ -99,7 +108,7 @@
     </div>
 </main>
 
-<footer th:insert="component/footer :: footer"></footer>
+<footer th:insert="~{component/footer :: footer}"></footer>
 
 </body>
 </html>

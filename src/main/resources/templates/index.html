@@ -4,15 +4,16 @@
     <meta charset="UTF-8">
     <title>Home</title>
     <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
-    <span th:replace="~{component/bootstrap :: import}"></span>
+    <span th:replace="~{component/import :: bootstrap}"></span>
+    <span th:replace="~{component/import :: styles('index')}"></span>
 </head>
 <body class="d-flex min-vh-100 flex-column">
 
-<header th:insert="component/header :: header('/')"></header>
+<header th:insert="~{component/header :: header('/')}"></header>
 
 <main class="container flex-grow-1">
     <div class="px-4 py-5 my-5 text-center">
-        <img class="d-block mx-auto mb-4 img-fluid" src="/images/logo.png" alt="logo" style="width: 100px;">
+        <img class="d-block mx-auto mb-4 img-fluid w-100px" src="/images/logo.png" alt="logo">
         <h1 class="display-5 fw-bold text-body-emphasis">TP Students</h1>
         <div class="col-lg-6 mx-auto">
             <p class="small mb-4">by Tibo</p>
@@ -23,6 +24,14 @@
                 </a>
                 <a href="/add-student" class="btn btn-outline-secondary btn-lg px-4">
                     Add a student
+                </a>
+            </div>
+            <div>
+                <a class="btn btn-sm btn-outline-success mt-3 btn-disabled">
+                    Edit a student
+                </a>
+                <a class="btn btn-sm btn-outline-danger mt-3 btn-disabled">
+                    Remove a student
                 </a>
             </div>
             <div class="my-3 d-grid gap-2 d-sm-flex justify-content-sm-center">
@@ -41,7 +50,7 @@
     </div>
 </main>
 
-<footer th:insert="component/footer :: footer"></footer>
+<footer th:insert="~{component/footer :: footer}"></footer>
 
 </body>
 </html>
