@@ -60,45 +60,4 @@ public class StudentService {
     public void delete(UUID id) {
         studentRepository.deleteById(id);
     }
-
-    /*public void addStudent(Student student) {
-        if (student.getId() == null) student.setId(UUID.randomUUID());
-        if (student.getPhoto() == null || student.getPhoto().isBlank())
-            student.setPhoto(String.format("/images/student/default/%s-default.png", student.getGender().name().toLowerCase().charAt(0)));
-        students.add(student);
-    }
-
-    public List<Student> getAllStudents() {
-        return students;
-    }
-
-    public Student getStudentById(UUID id) {
-        return students.stream().filter(student -> student.getId().equals(id)).findFirst().orElse(null);
-    }
-
-    public List<Student> getStudentsByName(String name) {
-        return students
-                .stream()
-                .filter(student -> student.getFirstName().toLowerCase().contains(name.toLowerCase()) || student.getLastName().toLowerCase().contains(name.toLowerCase()))
-                .toList();
-    }
-
-    public void deleteStudent(UUID id) {
-        students.remove(getStudentById(id));
-    }
-
-    public void updateStudent(Student updatedStudent) {
-        Student student = getStudentById(updatedStudent.getId());
-        if (student == null) return;
-
-        student.setFirstName(updatedStudent.getFirstName());
-        student.setLastName(updatedStudent.getLastName());
-        student.setGender(updatedStudent.getGender());
-        student.setAge(updatedStudent.getAge());
-        student.setEmail(updatedStudent.getEmail());
-        if (updatedStudent.getPhoto() == null || updatedStudent.getPhoto().isBlank())
-            updatedStudent.setPhoto(String.format("/images/student/default/%s-default.png", updatedStudent.getGender().name().toLowerCase().charAt(0)));
-        else
-            student.setPhoto(updatedStudent.getPhoto());
-    }*/
 }

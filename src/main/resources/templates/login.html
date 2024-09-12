@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+    <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+    <span th:replace="~{component/import :: bootstrap}"></span>
+    <span th:replace="~{component/import :: styles('index')}"></span>
+</head>
+<body class="d-flex min-vh-100 flex-column">
+
+<header th:insert="~{component/header :: header('/')}"></header>
+
+<main class="container flex-grow-1">
+    <div class="px-4 py-5 my-5 text-center">
+        <img class="d-block mx-auto mb-4 img-fluid w-100px" src="/images/logo.png" alt="logo">
+        <h1 class="display-5 fw-bold text-body-emphasis">Login</h1>
+        <!-- TODO: handle errors -->
+        <form th:action="@{/login}" method="post">
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="username" name="username" placeholder="Username">
+                <label for="username">Username</label>
+            </div>
+            <div class="form-floating mb-3">
+                <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+                <label for="password">Password</label>
+            </div>
+            <button class="w-100 btn btn-lg btn-primary" type="submit">Log in</button>
+        </form>
+    </div>
+</main>
+
+<footer th:insert="~{component/footer :: footer}"></footer>
+
+</body>
+</html>

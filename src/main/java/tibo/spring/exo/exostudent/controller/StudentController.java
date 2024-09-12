@@ -8,17 +8,26 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import tibo.spring.exo.exostudent.entity.Student;
+import tibo.spring.exo.exostudent.service.LoginService;
 import tibo.spring.exo.exostudent.service.StudentService;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.UUID;
 
 @Controller
 public class StudentController {
+    private final static String IMAGES_PATH = "target/classes/static/images/student/";
     private final StudentService studentService;
+    private final LoginService loginService;
 
     @Autowired
-    public StudentController(StudentService studentService) {
+    public StudentController(StudentService studentService, LoginService loginService) {
         this.studentService = studentService;
+        this.loginService = loginService;
     }
 
     @RequestMapping("/students")
@@ -35,6 +44,9 @@ public class StudentController {
 
     @RequestMapping("/add-student")
     public String addStudent(Model model) {
+        if (!loginService.isLoggedIn()) {
+            return "redirect:/login";
+        }
         model.addAttribute("student", new Student());
         model.addAttribute("action", "Add");
         return "student/formStudent";
@@ -45,17 +57,26 @@ public class StudentController {
                                  BindingResult result,
                                  Model model,
                                  @RequestParam(name = "image", required = false) MultipartFile photo) {
+        if (!loginService.isLoggedIn()) {
+            return "redirect:/login";
+        }
         if (result.hasErrors()) {
             model.addAttribute("action", "Add");
             return "student/formStudent";
         }
 
-        /* ---------- */
-        // TODO: upload photo
-        // String filename = String.format("%s_%s", UUID.randomUUID(), photo.getOriginalFilename());
-        if (student.getPhoto() == null || student.getPhoto().isBlank())
+        try {
+            if (photo.isEmpty()) throw new IOException("File is empty");
+            String name = String.format("%s_%s", UUID.randomUUID(), photo.getOriginalFilename());
+            Path file = Paths.get(IMAGES_PATH)
+                    .resolve(name)
+                    .toAbsolutePath();
+            InputStream inputStream = photo.getInputStream();
+            Files.copy(inputStream, file);
+            student.setPhoto(String.format("/images/student/%s", name));
+        } catch (IOException e) {
             student.setPhoto(String.format("/images/student/default/%s-default.png", student.getGender().name().toLowerCase().charAt(0)));
-        /* ---------- */
+        }
 
         studentService.save(student);
         return String.format("redirect:/students/%s", student.getId());
@@ -69,12 +90,18 @@ public class StudentController {
 
     @RequestMapping("/delete-student/{id}")
     public String deleteStudent(@PathVariable("id") UUID id) {
+        if (!loginService.isLoggedIn()) {
+            return "redirect:/login";
+        }
         studentService.delete(id);
         return "redirect:/students";
     }
 
     @RequestMapping("/update-student/{id}")
     public String updateStudent(@PathVariable("id") UUID id, Model model) {
+        if (!loginService.isLoggedIn()) {
+            return "redirect:/login";
+        }
         model.addAttribute("student", studentService.findById(id));
         model.addAttribute("action", "Edit");
         return "student/formStudent";
@@ -85,17 +112,26 @@ public class StudentController {
                                     BindingResult result,
                                     Model model,
                                     @RequestParam(name = "image", required = false) MultipartFile photo) {
+        if (!loginService.isLoggedIn()) {
+            return "redirect:/login";
+        }
         if (result.hasErrors()) {
             model.addAttribute("action", "Edit");
             return "student/formStudent";
         }
 
-        /* ---------- */
-        // TODO: upload photo
-        // String filename = String.format("%s_%s", UUID.randomUUID(), photo.getOriginalFilename());
-        if (student.getPhoto() == null || student.getPhoto().isBlank())
+        try {
+            if (photo.isEmpty()) throw new IOException("File is empty");
+            String name = String.format("%s_%s", UUID.randomUUID(), photo.getOriginalFilename());
+            Path file = Paths.get(IMAGES_PATH)
+                    .resolve(name)
+                    .toAbsolutePath();
+            InputStream inputStream = photo.getInputStream();
+            Files.copy(inputStream, file);
+            student.setPhoto(String.format("/images/student/%s", name));
+        } catch (IOException e) {
             student.setPhoto(String.format("/images/student/default/%s-default.png", student.getGender().name().toLowerCase().charAt(0)));
-        /* ---------- */
+        }
 
         studentService.save(student);
         return String.format("redirect:/students/%s", student.getId());

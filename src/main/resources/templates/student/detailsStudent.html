@@ -23,8 +23,8 @@
                 <p class="card-text my-1">Email : <a th:href="'mailto:' + ${student.email}"
                                                      th:text="${student.email}"></a>
                 </p>
-                <div class="d-flex justify-content-between">
-                    <div>
+                <div class="d-flex" th:classAppend="${session.get('isLoggedIn') != null && session.get('isLoggedIn') ? 'justify-content-between' : 'justify-content-end'}">
+                    <div th:if="${session.get('isLoggedIn')}">
                         <a th:href="@{/update-student/{id}(id=${student.getId()})}"
                            class="btn btn-sm btn-outline-success mt-3">
                             Edit
